@@ -4,11 +4,10 @@
 #include <QRect>
 #import <CoreFoundation/CoreFoundation.h>
 #import <UIKit/UIKit.h>
-View::View(QWidget* parent):QWidget(parent)
+View::View(QWidget* parent):QWidget(parent),m_scheduled(false)
 {
-  m_TextView=[[UITextView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-  QWidget* w= window();
-  UIView *parentView = reinterpret_cast<UIView *>(w->winId());
+  m_TextView=[[UITextView alloc] init];
+  UIView *parentView = reinterpret_cast<UIView *>(window()->winId());
   [parentView addSubview:m_TextView];
 }
 
@@ -30,18 +29,16 @@ bool View::event(QEvent* e)
   return result;
 }
 
-QRect globalRect(QWidget* w,const QRect& r)
+static inline QRect globalRect(QWidget* widget)
 {
-  QPoint topLeft = w->mapToGlobal( r.topLeft() );
-  QPoint bottomRight = w->mapToGlobal( r.bottomRight() );
-  return QRect(topLeft,bottomRight);
+  return QRect((widget)->mapToGlobal(QPoint(0,0)), (widget)->size());
 }
 
 void View::updateGeo()
 {
   m_scheduled=false;
-  QRect rg=globalRect(this,rect());
-  QRect rw=globalRect(window(),window()->rect());
+  QRect rg=globalRect(this);
+  QRect rw=globalRect(window());
   CGRect cg=CGRectMake(rg.x(), rg.y()-rw.y(), rg.width(), rg.height());
   [m_TextView setFrame:cg];
 }
