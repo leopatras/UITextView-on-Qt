@@ -4,7 +4,7 @@
 #include <QRect>
 #import <CoreFoundation/CoreFoundation.h>
 #import <UIKit/UIKit.h>
-MyFrame::MyFrame(QWidget* parent):QFrame(parent)
+View::View(QWidget* parent):QWidget(parent)
 {
   m_TextView=[[UITextView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
   QWidget* w= window();
@@ -12,13 +12,13 @@ MyFrame::MyFrame(QWidget* parent):QFrame(parent)
   [parentView addSubview:m_TextView];
 }
 
-MyFrame::~MyFrame()
+View::~View()
 {
   [m_TextView removeFromSuperview];
   m_TextView=nil;
 }
 
-bool MyFrame::event(QEvent* e)
+bool View::event(QEvent* e)
 {
   if (e->type()==QEvent::Move || e->type()==QEvent::Resize) {
     if (!m_scheduled) {
@@ -26,7 +26,7 @@ bool MyFrame::event(QEvent* e)
       QTimer::singleShot( 0, this, SLOT( updateGeo() ) );
     }
   }
-  bool result=QFrame::event(e);
+  bool result=QWidget::event(e);
   return result;
 }
 
@@ -37,7 +37,7 @@ QRect globalRect(QWidget* w,const QRect& r)
   return QRect(topLeft,bottomRight);
 }
 
-void MyFrame::updateGeo()
+void View::updateGeo()
 {
   m_scheduled=false;
   QRect rg=globalRect(this,rect());

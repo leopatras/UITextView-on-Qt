@@ -14,7 +14,7 @@ MainWindow::MainWindow() : QMainWindow()
     pushb->setText("hallo");
     mainLayout->addWidget(pushb);
     connect(pushb, SIGNAL(clicked()), qApp, SLOT(quit()));
-    QFrame* f=new MyFrame(central);
+    View* f=new View(central);
     f->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     mainLayout->addWidget(f);
     QLineEdit* e2=new QLineEdit(central);

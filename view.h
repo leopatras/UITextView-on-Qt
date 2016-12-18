@@ -1,17 +1,17 @@
 #ifndef __VIEW_H__
 #define __VIEW_H__
-#include <QFrame>
+#include <QWidget>
 
 Q_FORWARD_DECLARE_OBJC_CLASS(UITextView);
 
-class MyFrame : public QFrame
+class View : public QWidget
 {
   Q_OBJECT
   
 public:
   
-  MyFrame(QWidget* parent=0);
-  ~MyFrame();
+  View(QWidget* parent=0);
+  ~View();
 protected:
   virtual bool event(QEvent*);
 private:
