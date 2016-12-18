@@ -14,8 +14,6 @@ MainWindow::MainWindow() : QMainWindow()
     pushb->setText("hallo");
     mainLayout->addWidget(pushb);
     connect(pushb, SIGNAL(clicked()), qApp, SLOT(quit()));
-    //QTextEdit* te=new QTextEdit(central);
-    //mainLayout->addWidget(te);
     QFrame* f=new MyFrame(central);
     f->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     mainLayout->addWidget(f);
